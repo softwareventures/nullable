@@ -23,3 +23,23 @@ export function defaultValue<T>(nullable: T | undefined | null, defaultValue: T)
 export function defaultValueFn<T>(defaultValue: T): (nullable: T | undefined | null) => T {
     return nullable => nullable ?? defaultValue;
 }
+
+/** If the specified value is null or undefined, returns null.
+ *
+ * Otherwise, passes the specified value to the provided function and returns
+ * the return value of that function. */
+export function map<T, U>(nullable: T | undefined | null, f: (element: T) => U): U | null {
+    return nullable == null ? null : f(nullable) ?? null;
+}
+
+/** Returns a function that takes a nullable value as its argument.
+ *
+ * If the function is called with null or undefined, it returns null.
+ *
+ * Otherwise, the argument is passed to the callback `f` and the
+ * return value of `f` is returned.
+ *
+ * Curried variant of {@link map}. */
+export function mapFn<T, U>(f: (element: T) => U): (nullable: T | undefined | null) => U | null {
+    return nullable => map(nullable, f);
+}
