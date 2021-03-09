@@ -3,23 +3,23 @@ import {map} from "./index";
 
 test("map", t => {
     t.is(
-        null,
-        map(null, (e: number) => e + 1)
+        map(null, (e: number) => e + 1),
+        null
     );
     t.is(
-        null,
-        map(undefined, (e: number) => e + 1)
+        map(undefined, (e: number) => e + 1),
+        null
     );
     t.is(
-        3,
-        map(2, e => e + 1)
+        map(2, e => e + 1),
+        3
     );
     t.is(
-        null,
-        map(2, () => null)
+        map(2, () => null),
+        null
     );
     t.is(
-        null,
-        map(2, () => {})
+        map(2, () => {}),
+        null
     );
 });
