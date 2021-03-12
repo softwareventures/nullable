@@ -23,7 +23,3 @@ test("map", t => {
         null
     );
 });
-
-test("mapNullFn", t => {
-
-});
