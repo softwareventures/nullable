@@ -13,13 +13,19 @@ export function isNotNull<T>(value: T | null | undefined): value is T {
 }
 
 /** Returns the specified value, or the default value if the specified value
- * is null or undefined. */
+ * is null or undefined.
+ *
+ * If the default value is expensive to compute, consider using
+ * {@link mapNull} instead. */
 export function defaultValue<T>(nullable: T | undefined | null, defaultValue: T): T {
     return nullable ?? defaultValue;
 }
 
 /** Returns a function that returns the specified value, or the default value
- * if the specified value is null or undefined. */
+ * if the specified value is null or undefined.
+ *
+ * If the default value is expensive to compute, consider using
+ * {@link mapNulLFn} instead. */
 export function defaultValueFn<T>(defaultValue: T): (nullable: T | undefined | null) => T {
     return nullable => nullable ?? defaultValue;
 }
@@ -42,4 +48,23 @@ export function map<T, U>(nullable: T | undefined | null, f: (element: T) => U):
  * Curried variant of {@link map}. */
 export function mapFn<T, U>(f: (element: T) => U): (nullable: T | undefined | null) => U | null {
     return nullable => map(nullable, f);
+}
+
+/** Returns the specified value or, if the value is null or undefined, calls
+ * the provided callback and returns the result of that function call.
+ *
+ * Useful as an alternative to {@link defaultValue} if the default value is
+ * expensive to compute. */
+export function mapNull<T, U>(nullable: T | undefined | null, f: () => U): T | U {
+    return nullable == null ? f() : nullable;
+}
+
+/** Returns a function that returns the specified value or, if the value is
+ * null or undefined, calls the provided callback and returns the result of
+ * that function call.
+ *
+ * Useful as an alternative to {@link defaultValueFn} if the default value is
+ * expensive to compute. */
+export function mapNullFn<T, U>(f: () => U): (nullable: T | undefined | null) => T | U {
+    return nullable => mapNull(nullable, f);
 }
