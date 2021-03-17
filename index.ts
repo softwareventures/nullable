@@ -25,7 +25,7 @@ export function defaultValue<T>(nullable: T | undefined | null, defaultValue: T)
  * if the specified value is null or undefined.
  *
  * If the default value is expensive to compute, consider using
- * {@link mapNulLFn} instead. */
+ * {@link mapNullFn} instead. */
 export function defaultValueFn<T>(defaultValue: T): (nullable: T | undefined | null) => T {
     return nullable => nullable ?? defaultValue;
 }
