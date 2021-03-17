@@ -55,7 +55,7 @@ export function mapFn<T, U>(f: (element: T) => U): (nullable: T | undefined | nu
  *
  * Useful as an alternative to {@link defaultValue} if the default value is
  * expensive to compute. */
-export function mapNull<T, U>(nullable: T | undefined | null, f: () => U): T | U {
+export function mapNull<T, U = T>(nullable: T | undefined | null, f: () => U): T | U {
     return nullable == null ? f() : nullable;
 }
 
@@ -65,6 +65,6 @@ export function mapNull<T, U>(nullable: T | undefined | null, f: () => U): T | U
  *
  * Useful as an alternative to {@link defaultValueFn} if the default value is
  * expensive to compute. */
-export function mapNullFn<T, U>(f: () => U): (nullable: T | undefined | null) => T | U {
+export function mapNullFn<T, U = T>(f: () => U): (nullable: T | undefined | null) => T | U {
     return nullable => mapNull(nullable, f);
 }
