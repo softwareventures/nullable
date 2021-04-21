@@ -12,6 +12,10 @@ export function isNotNull<T>(value: T | null | undefined): value is T {
     return value != null;
 }
 
+/** Asserts that the specified value is neither null nor undefined, and
+ * returns it.
+ *
+ * @throws TypeError if the value is null or undefined */
 export function notNull<T>(value: T | null | undefined): T {
     if (value == null) {
         throw new TypeError(`value is ${String(value)}`);
