@@ -12,6 +12,14 @@ export function isNotNull<T>(value: T | null | undefined): value is T {
     return value != null;
 }
 
+export function notNull<T>(value: T | null | undefined): T {
+    if (value == null) {
+        throw new TypeError(`value is ${String(value)}`);
+    }
+
+    return value;
+}
+
 /** Returns the specified value, or the default value if the specified value
  * is null or undefined.
  *
