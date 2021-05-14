@@ -62,6 +62,40 @@ export function mapFn<T, U>(f: (element: T) => U): (nullable: T | undefined | nu
     return nullable => map(nullable, f);
 }
 
+/** If the specified value is null or undefined, returns null.
+ *
+ * Otherwise, passes the specified value to the provided function and returns
+ * the return value of that function.
+ *
+ * Alias for {@link map}. */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore This is the exported declaration, the actual implementation is below.
+export function mapNullable<T, U>(nullable: T | undefined | null, f: (element: T) => U): U | null;
+
+/** @internal */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore This is the implementation, the exported declaration is above.
+export const mapNullable = map;
+
+/** Returns a function that takes a nullable value as its argument.
+ *
+ * If the function is called with null or undefined, it returns null.
+ *
+ * Otherwise, the argument is passed to the callback `f` and the
+ * return value of `f` is returned.
+ *
+ * Alias for {@link mapFn}, which is a curried variant of {@link map}. */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore This is the exported declaration, the actual implementation is below.
+export function mapNullableFn<T, U>(
+    f: (element: T) => U
+): (nullable: T | undefined | null) => U | null;
+
+/** @internal */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore This is the implementation, the exported declaration is above.
+export const mapNullableFn = mapFn;
+
 /** Returns the specified value or, if the value is null or undefined, calls
  * the provided callback and returns the result of that function call.
  *
