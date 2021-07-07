@@ -3,9 +3,9 @@
   "version": "0.0.0-development",
   "description": "Pure functional utilities for nullable types",
   "keywords": [
-    "lambda",
     "TypeScript",
     "functional",
+    "lambda",
     "nullable",
     "option"
   ],
