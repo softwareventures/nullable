@@ -8,7 +8,8 @@ export function isNull<T>(value: unknown): value is null | undefined {
 /** Tests if the specified value is null or undefined.
  *
  * Useful as the predicate of filter functions and similar. */
-export function isNotNull<T>(value: T | null | undefined): value is T {
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+export function isNotNull<T>(value: T | null | undefined | void): value is T {
     return value != null;
 }
 
@@ -16,7 +17,8 @@ export function isNotNull<T>(value: T | null | undefined): value is T {
  * returns it.
  *
  * @throws TypeError if the value is null or undefined */
-export function notNull<T>(value: T | null | undefined): T {
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+export function notNull<T>(value: T | null | undefined | void): T {
     if (value == null) {
         throw new TypeError(`value is ${String(value)}`);
     }
@@ -29,7 +31,8 @@ export function notNull<T>(value: T | null | undefined): T {
  *
  * If the default value is expensive to compute, consider using
  * {@link mapNull} instead. */
-export function defaultValue<T>(nullable: T | undefined | null, defaultValue: T): T {
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+export function defaultValue<T>(nullable: T | undefined | null | void, defaultValue: T): T {
     return nullable ?? defaultValue;
 }
 
@@ -38,7 +41,8 @@ export function defaultValue<T>(nullable: T | undefined | null, defaultValue: T)
  *
  * If the default value is expensive to compute, consider using
  * {@link mapNullFn} instead. */
-export function defaultValueFn<T>(defaultValue: T): (nullable: T | undefined | null) => T {
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+export function defaultValueFn<T>(defaultValue: T): (nullable: T | undefined | null | void) => T {
     return nullable => nullable ?? defaultValue;
 }
 
@@ -46,7 +50,8 @@ export function defaultValueFn<T>(defaultValue: T): (nullable: T | undefined | n
  *
  * Otherwise, passes the specified value to the provided function and returns
  * the return value of that function. */
-export function map<T, U>(nullable: T | undefined | null, f: (element: T) => U): U | null {
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+export function map<T, U>(nullable: T | undefined | null | void, f: (element: T) => U): U | null {
     return nullable == null ? null : f(nullable) ?? null;
 }
 
@@ -58,7 +63,10 @@ export function map<T, U>(nullable: T | undefined | null, f: (element: T) => U):
  * return value of `f` is returned.
  *
  * Curried variant of {@link map}. */
-export function mapFn<T, U>(f: (element: T) => U): (nullable: T | undefined | null) => U | null {
+export function mapFn<T, U>(
+    f: (element: T) => U
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+): (nullable: T | undefined | null | void) => U | null {
     return nullable => map(nullable, f);
 }
 
@@ -70,7 +78,11 @@ export function mapFn<T, U>(f: (element: T) => U): (nullable: T | undefined | nu
  * Alias for {@link map}. */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore This is the exported declaration, the actual implementation is below.
-export function mapNullable<T, U>(nullable: T | undefined | null, f: (element: T) => U): U | null;
+export function mapNullable<T, U>(
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+    nullable: T | undefined | null | void,
+    f: (element: T) => U
+): U | null;
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -89,7 +101,8 @@ export const mapNullable = map;
 // @ts-ignore This is the exported declaration, the actual implementation is below.
 export function mapNullableFn<T, U>(
     f: (element: T) => U
-): (nullable: T | undefined | null) => U | null;
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+): (nullable: T | undefined | null | void) => U | null;
 
 /** @internal */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -101,7 +114,8 @@ export const mapNullableFn = mapFn;
  *
  * Useful as an alternative to {@link defaultValue} if the default value is
  * expensive to compute. */
-export function mapNull<T, U = T>(nullable: T | undefined | null, f: () => U): T | U {
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+export function mapNull<T, U = T>(nullable: T | undefined | null | void, f: () => U): T | U {
     return nullable == null ? f() : nullable;
 }
 
@@ -111,6 +125,7 @@ export function mapNull<T, U = T>(nullable: T | undefined | null, f: () => U): T
  *
  * Useful as an alternative to {@link defaultValueFn} if the default value is
  * expensive to compute. */
-export function mapNullFn<T, U = T>(f: () => U): (nullable: T | undefined | null) => T | U {
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+export function mapNullFn<T, U = T>(f: () => U): (nullable: T | undefined | null | void) => T | U {
     return nullable => mapNull(nullable, f);
 }
