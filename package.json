@@ -26,7 +26,7 @@
     "node": "^14 || ^16 || >=18"
   },
   "dependencies": {
-    "tslib": "2.5.2"
+    "tslib": "2.5.3"
   },
   "devDependencies": {
     "@softwareventures/eslint-config": "7.1.1",
