@@ -1,6 +1,6 @@
 import test from "ava";
 import {expectType} from "ts-expect";
-import {defaultValue, isNotNull, isNull, map, mapNull, notNull} from "./index";
+import {defaultValue, isNotNull, isNull, map, mapNull, mapOptional, notNull} from "./index";
 
 function numberOrNull(): number | null {
     return 3;
@@ -126,4 +126,42 @@ test("mapNull", t => {
         mapNull(numberOrVoid(), () => 5),
         3
     );
+});
+
+test("mapOptional", t => {
+    t.is(
+        mapOptional(null, (e: number) => e + 1),
+        undefined
+    );
+    t.is(
+        mapOptional(undefined, (e: number) => e + 1),
+        undefined
+    );
+    t.is(
+        mapOptional(2, e => e + 1),
+        3
+    );
+    t.is(
+        mapOptional(2, () => null),
+        undefined
+    );
+    t.is(
+        mapOptional(2, () => {}),
+        undefined
+    );
+    t.is(
+        mapOptional(numberOrNull(), e => e + 1),
+        4
+    );
+    expectType<number | undefined>(mapOptional(numberOrNull(), e => e + 1));
+    t.is(
+        mapOptional(numberOrUndefined(), e => e + 1),
+        4
+    );
+    expectType<number | undefined>(mapOptional(numberOrUndefined(), e => e + 1));
+    t.is(
+        mapOptional(numberOrVoid(), e => e + 1),
+        4
+    );
+    expectType<number | undefined>(mapOptional(numberOrVoid(), e => e + 1));
 });

@@ -46,10 +46,13 @@ export function defaultValueFn<T>(defaultValue: T): (nullable: T | undefined | n
     return nullable => nullable ?? defaultValue;
 }
 
-/** If the specified value is null or undefined, returns null.
+/** If the specified value is `null` or `undefined`, returns `null`.
  *
  * Otherwise, passes the specified value to the provided function and returns
- * the return value of that function. */
+ * the return value of that function.
+ *
+ * Equivalent to {@link mapOptional} except that this function returns `null`
+ * instead of `undefined`. */
 // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export function map<T, U>(nullable: T | undefined | null | void, f: (element: T) => U): U | null {
     return nullable == null ? null : f(nullable) ?? null;
@@ -74,6 +77,9 @@ export function mapFn<T, U>(
  *
  * Otherwise, passes the specified value to the provided function and returns
  * the return value of that function.
+ *
+ * Equivalent to {@link mapOptional} except that this function returns `null`
+ * instead of `undefined`.
  *
  * Alias for {@link map}. */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -108,6 +114,39 @@ export function mapNullableFn<T, U>(
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore This is the implementation, the exported declaration is above.
 export const mapNullableFn = mapFn;
+
+/** If the specified value is `null` or `undefined`, returns `undefined`.
+ *
+ * Otherwise, passes the specified value to the provided function and returns
+ * the return value of that function.
+ *
+ * Equivalent to {@link map} and {@link mapNullable} except that this function
+ * returns `undefined` instead of `null`. */
+export function mapOptional<T, U>(
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+    optional: T | null | undefined | void,
+    f: (element: T) => U
+): U | undefined {
+    return optional == null ? undefined : f(optional) ?? undefined;
+}
+
+/** Returns a function that takes a nullable value as its argument.
+ *
+ * If the function is called with `null` or `undefined`, it returns undefined.
+ *
+ * Otherwise, the argument is passed to the callback `f` and the
+ * return value of `f` is returned.
+ *
+ * Equivalent to {@link mapFn} and {@link mapNullableFn} except that the
+ * resulting function returns `undefined` instead of `null`.
+ *
+ * Curried variant of {@link mapOptional}. */
+export function mapOptionalFn<T, U>(
+    f: (element: T) => U
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+): (optional: T | undefined | null | void) => U | undefined {
+    return optional => mapOptional(optional, f);
+}
 
 /** Returns the specified value or, if the value is null or undefined, calls
  * the provided callback and returns the result of that function call.
